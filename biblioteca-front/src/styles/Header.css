@@ -1,0 +1,347 @@
+/* Header Styles */
+:root {
+  --cafe-oscuro: #3e2723;
+  --cafe-medio: #5d4037;
+  --cafe-claro: #8d6e63;
+  --cafe-muy-claro: #d7ccc8;
+  --beige: #f5f5f0;
+  --accent: #d4a574;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--cafe-claro), var(--cafe-medio));
+  box-shadow: 0 4px 12px rgba(62, 39, 35, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: background 0.3s ease;
+}
+
+.header.dark {
+  background: linear-gradient(135deg, #2c1810, #1a0f0a);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 30px;
+}
+
+.logo h1 {
+  color: white;
+  font-size: 1.5rem;
+  margin: 0;
+  font-family: 'Georgia', serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu {
+  display: flex;
+  gap: 25px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.3);
+  border-bottom: 3px solid white;
+  padding-bottom: 5px;
+}
+
+.nav-link.admin-link {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.nav-link.admin-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.theme-toggle-header {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-header:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.theme-toggle-header:active {
+  transform: scale(0.95);
+}
+
+/* User Menu */
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.user-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  margin-top: 10px;
+  padding: 15px 20px;
+  min-width: 250px;
+  z-index: 1000;
+}
+
+.header.dark .user-dropdown {
+  background: #2c1810;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.user-info {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header.dark .user-info {
+  border-color: rgba(212, 165, 116, 0.3);
+}
+
+.user-info p {
+  margin: 5px 0;
+  color: var(--cafe-oscuro);
+  font-size: 0.9rem;
+}
+
+.header.dark .user-info p {
+  color: #e8dcc8;
+}
+
+.user-info p strong {
+  font-weight: 700;
+  color: var(--cafe-oscuro);
+}
+
+.header.dark .user-info p strong {
+  color: var(--accent);
+}
+
+.user-email {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.header.dark .user-email {
+  color: #aaa;
+}
+
+.user-rol {
+  color: var(--cafe-claro);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.header.dark .user-rol {
+  color: var(--accent);
+}
+
+.logout-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #c62828, #d32f2f);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
+}
+
+.login-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .header-container {
+    gap: 20px;
+  }
+
+  .nav-menu {
+    gap: 15px;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 12px 15px;
+    gap: 15px;
+  }
+
+  .logo h1 {
+    font-size: 1.2rem;
+  }
+
+  .nav-menu {
+    gap: 10px;
+    flex: none;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 5px 8px;
+  }
+
+  .header-right {
+    gap: 12px;
+  }
+
+  .theme-toggle-header {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .user-btn,
+  .login-btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .user-dropdown {
+    right: -10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-container {
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .logo h1 {
+    font-size: 1rem;
+    flex: 1 0 100%;
+  }
+
+  .nav-menu {
+    gap: 8px;
+    flex: 1 0 100%;
+    order: 3;
+    margin-top: 5px;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+
+  .nav-link.admin-link {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+
+  .header-right {
+    order: 2;
+    gap: 8px;
+  }
+
+  .theme-toggle-header {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+  }
+
+  .user-btn,
+  .login-btn {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+
+  .user-dropdown {
+    min-width: 200px;
+    right: -20px;
+  }
+}
+
