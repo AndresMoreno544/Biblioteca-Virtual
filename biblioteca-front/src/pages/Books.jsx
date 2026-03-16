@@ -72,7 +72,11 @@ function Books() {
                 className={`book-card ${tieneDisponibles ? 'available' : 'borrowed'}`}
               >
                 <div className="book-cover">
-                  <span className="cover-emoji">{libro.portada}</span>
+                  {libro.portada.startsWith('http') || libro.portada.startsWith('data:') ? (
+                    <img src={libro.portada} alt={libro.titulo} className="cover-image" />
+                  ) : (
+                    <span className="cover-emoji">{libro.portada}</span>
+                  )}
                 </div>
                 
                 <div className="book-info">
