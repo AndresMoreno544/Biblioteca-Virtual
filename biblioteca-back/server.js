@@ -18,18 +18,28 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/biblio
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  'https://biblioteca-virtual-ge18.vercel.app',
   process.env.CORS_ORIGIN
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+    // Si no hay origin (request desde mismo servidor o curl), permitir
+    if (!origin) {
+      return callback(null, true);
     }
+    
+    // Verificar si el origen está en la lista permitida
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // Si no está permitido, rechazar
+    callback(new Error('Not allowed by CORS'));
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
