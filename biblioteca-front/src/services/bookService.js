@@ -1,14 +1,21 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+const getHeaders = () => {
+  const token = localStorage.getItem('token');
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+};
+
 export const getBooks = async () => {
   try {
     const response = await fetch(`${API_URL}/books`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      mode: 'cors'
+      headers: getHeaders()
     });
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -23,8 +30,7 @@ export const getBooks = async () => {
 export const getBookById = async (id) => {
   try {
     const response = await fetch(`${API_URL}/books/${id}`, {
-      credentials: 'include',
-      mode: 'cors'
+      headers: getHeaders()
     });
     if (!response.ok) {
       throw new Error('Error al obtener el libro');
@@ -40,12 +46,8 @@ export const createBook = async (bookData) => {
   try {
     const response = await fetch(`${API_URL}/books`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(bookData),
-      credentials: 'include',
-      mode: 'cors'
+      headers: getHeaders(),
+      body: JSON.stringify(bookData)
     });
     if (!response.ok) {
       throw new Error('Error al crear el libro');
@@ -61,12 +63,8 @@ export const updateBook = async (id, bookData) => {
   try {
     const response = await fetch(`${API_URL}/books/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(bookData),
-      credentials: 'include',
-      mode: 'cors'
+      headers: getHeaders(),
+      body: JSON.stringify(bookData)
     });
     if (!response.ok) {
       throw new Error('Error al actualizar el libro');
@@ -82,8 +80,7 @@ export const deleteBook = async (id) => {
   try {
     const response = await fetch(`${API_URL}/books/${id}`, {
       method: 'DELETE',
-      credentials: 'include',
-      mode: 'cors'
+      headers: getHeaders()
     });
     if (!response.ok) {
       throw new Error('Error al eliminar el libro');

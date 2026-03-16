@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+import { generarToken, verificarToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -37,12 +38,12 @@ router.post('/register', async (req, res) => {
 
     await nuevoUsuario.save();
 
-    // Guardar en sesión
-    req.session.userId = nuevoUsuario._id;
-    req.session.rol = nuevoUsuario.rol;
+    // Generar token JWT
+    const token = generarToken(nuevoUsuario);
 
     res.status(201).json({
       message: 'Registro exitoso',
+      token,
       usuario: nuevoUsuario.toJSON()
     });
   } catch (error) {
@@ -72,13 +73,12 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
-    // Guardar en sesión
-    req.session.userId = usuario._id;
-    req.session.rol = usuario.rol;
-    req.session.nombre = usuario.nombre;
+    // Generar token JWT
+    const token = generarToken(usuario);
 
     res.json({
       message: 'Login exitoso',
+      token,
       usuario: usuario.toJSON()
     });
   } catch (error) {
@@ -86,28 +86,19 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Logout
-router.post('/logout', (req, res) => {
-  req.session.destroy((error) => {
-    if (error) {
-      return res.status(500).json({ message: 'Error al cerrar sesión' });
-    }
-    res.clearCookie('connect.sid');
-    res.json({ message: 'Sesión cerrada' });
-  });
-});
-
-// Obtener usuario actual
-router.get('/me', (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ message: 'No autenticado' });
+// Obtener usuario actual (verifica el token)
+router.get('/me', verificarToken, async (req, res) => {
+  try {
+    const usuario = await User.findById(req.usuario.userId);
+    res.json({
+      _id: usuario._id,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      rol: usuario.rol
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.json({
-    userId: req.session.userId,
-    rol: req.session.rol,
-    nombre: req.session.nombre
-  });
 });
 
 export default router;

@@ -6,25 +6,39 @@ export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
   const [rol, setRol] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
-  // Verificar si hay usuario autenticado al cargar
+  // Verificar si hay token guardado al cargar
   useEffect(() => {
     const verificarAutenticacion = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-          credentials: 'include',
-          mode: 'cors'
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setUsuario(data);
-          setRol(data.rol);
+      const tokenGuardado = localStorage.getItem('token');
+      
+      if (tokenGuardado) {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+            headers: {
+              'Authorization': `Bearer ${tokenGuardado}`,
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            setUsuario(data);
+            setRol(data.rol);
+            setToken(tokenGuardado);
+          } else {
+            // Token inválido, limpiar
+            localStorage.removeItem('token');
+            setToken(null);
+          }
+        } catch (error) {
+          console.error('Error al verificar autenticación:', error);
+          localStorage.removeItem('token');
+          setToken(null);
         }
-      } catch (error) {
-        console.error('Error al verificar autenticación:', error);
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     verificarAutenticacion();
@@ -37,8 +51,6 @@ export function AuthProvider({ children }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
-        mode: 'cors',
         body: JSON.stringify({ email, contrasena })
       });
 
@@ -48,8 +60,13 @@ export function AuthProvider({ children }) {
       }
 
       const data = await response.json();
+      
+      // Guardar token en localStorage
+      localStorage.setItem('token', data.token);
+      setToken(data.token);
       setUsuario(data.usuario);
       setRol(data.usuario.rol);
+      
       return data;
     } catch (error) {
       throw error;
@@ -63,8 +80,6 @@ export function AuthProvider({ children }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
-        mode: 'cors',
         body: JSON.stringify({ nombre, email, contrasena, confirmarContrasena })
       });
 
@@ -74,43 +89,45 @@ export function AuthProvider({ children }) {
       }
 
       const data = await response.json();
+      
+      // Guardar token en localStorage
+      localStorage.setItem('token', data.token);
+      setToken(data.token);
       setUsuario(data.usuario);
       setRol(data.usuario.rol);
+      
       return data;
     } catch (error) {
       throw error;
     }
   };
 
-  const logout = async () => {
-    try {
-      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-        mode: 'cors'
-      });
-      setUsuario(null);
-      setRol(null);
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-    }
+  const logout = () => {
+    // Limpiar localStorage
+    localStorage.removeItem('token');
+    setToken(null);
+    setUsuario(null);
+    setRol(null);
   };
 
   const esAdmin = () => rol === 'admin';
   const esUsuario = () => rol === 'user';
   const estaAutenticado = () => usuario !== null;
+  const getToken = () => token;
 
   return (
     <AuthContext.Provider value={{
       usuario,
       rol,
+      token,
       loading,
       login,
       registro,
       logout,
       esAdmin,
       esUsuario,
-      estaAutenticado
+      estaAutenticado,
+      getToken
     }}>
       {children}
     </AuthContext.Provider>
