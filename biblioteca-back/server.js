@@ -34,8 +34,13 @@ app.use(cors({
 
 app.use(express.json());
 
-// Conectar a MongoDB
-mongoose.connect(MONGODB_URI)
+// Conectar a MongoDB con opciones de timeout
+mongoose.connect(MONGODB_URI, {
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 30000,
+  connectTimeoutMS: 30000,
+  maxPoolSize: 10
+})
   .then(() => {
     console.log('✓ Conectado a MongoDB');
   })
