@@ -2,9 +2,15 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const getBooks = async () => {
   try {
-    const response = await fetch(`${API_URL}/books`);
+    const response = await fetch(`${API_URL}/books`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors'
+    });
     if (!response.ok) {
-      throw new Error('Error al obtener los libros');
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {
@@ -33,7 +39,9 @@ export const createBook = async (bookData) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(bookData)
+      body: JSON.stringify(bookData),
+      credentials: 'include',
+      mode: 'cors'
     });
     if (!response.ok) {
       throw new Error('Error al crear el libro');
@@ -52,7 +60,9 @@ export const updateBook = async (id, bookData) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(bookData)
+      body: JSON.stringify(bookData),
+      credentials: 'include',
+      mode: 'cors'
     });
     if (!response.ok) {
       throw new Error('Error al actualizar el libro');
@@ -67,7 +77,9 @@ export const updateBook = async (id, bookData) => {
 export const deleteBook = async (id) => {
   try {
     const response = await fetch(`${API_URL}/books/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: 'include',
+      mode: 'cors'
     });
     if (!response.ok) {
       throw new Error('Error al eliminar el libro');

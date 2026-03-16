@@ -12,7 +12,8 @@ export function AuthProvider({ children }) {
     const verificarAutenticacion = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-          credentials: 'include'
+          credentials: 'include',
+          mode: 'cors'
         });
         if (response.ok) {
           const data = await response.json();
@@ -37,6 +38,7 @@ export function AuthProvider({ children }) {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
+        mode: 'cors',
         body: JSON.stringify({ email, contrasena })
       });
 
@@ -62,6 +64,7 @@ export function AuthProvider({ children }) {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
+        mode: 'cors',
         body: JSON.stringify({ nombre, email, contrasena, confirmarContrasena })
       });
 
@@ -83,7 +86,8 @@ export function AuthProvider({ children }) {
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        mode: 'cors'
       });
       setUsuario(null);
       setRol(null);
