@@ -59,10 +59,12 @@ app.use(session({
     touchAfter: 24 * 3600
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production', // true en HTTPS
     httpOnly: true,
+    sameSite: 'lax', // Permite cookies cross-site con GET/navegacion
     maxAge: 24 * 60 * 60 * 1000 // 24 horas
-  }
+  },
+  proxy: true // Confía en reverse proxy (necesario en Render)
 }));
 
 // Rutas

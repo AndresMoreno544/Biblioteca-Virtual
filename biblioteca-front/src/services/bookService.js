@@ -7,6 +7,7 @@ export const getBooks = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       mode: 'cors'
     });
     if (!response.ok) {
@@ -21,7 +22,10 @@ export const getBooks = async () => {
 
 export const getBookById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/books/${id}`);
+    const response = await fetch(`${API_URL}/books/${id}`, {
+      credentials: 'include',
+      mode: 'cors'
+    });
     if (!response.ok) {
       throw new Error('Error al obtener el libro');
     }
