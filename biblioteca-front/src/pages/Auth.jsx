@@ -166,12 +166,6 @@ function Auth() {
             </button>
           </p>
         </div>
-
-        <div className="demo-info">
-          <p className="demo-title">🔓 Credenciales de Demostración (Admin):</p>
-          <code>Email: admin@biblioteca.com</code>
-          <code>Contraseña: admin123</code>
-        </div>
       </div>
     </div>
   );

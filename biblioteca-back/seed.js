@@ -76,8 +76,8 @@ const initialBooks = [
 // Usuario administrador por defecto
 const adminUser = {
   nombre: "Administrador",
-  email: "admin@biblioteca.com",
-  contrasena: "admin123",
+  email: "morenoorejuela25@gmail.com",
+  contrasena: "lolpo209joE",
   rol: "admin"
 };
 
