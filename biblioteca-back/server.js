@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/biblioteca';
 
-// Middleware CORS - Permitir acceso desde el frontend en Vercel
+// Middleware CORS mejorado
 app.use(cors({
   origin: [
     'http://localhost:5173',
@@ -23,9 +23,14 @@ app.use(cors({
     process.env.CORS_ORIGIN
   ].filter(Boolean),
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
+  maxAge: 86400
 }));
+
+// Manejar preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 
