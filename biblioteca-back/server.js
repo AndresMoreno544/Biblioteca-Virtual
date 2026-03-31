@@ -48,6 +48,19 @@ mongoose.connect(MONGODB_URI, {
   });
 
 // Rutas
+app.get('/', (req, res) => {
+  res.json({
+    message: '📚 Biblioteca Virtual Backend',
+    version: '1.0.0',
+    status: 'active',
+    endpoints: {
+      health: '/api/health',
+      books: '/api/books',
+      auth: '/api/auth'
+    }
+  });
+});
+
 app.use('/api/auth', authRouter);
 app.use('/api/books', booksRouter);
 
