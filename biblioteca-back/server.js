@@ -9,14 +9,14 @@ import authRouter from './routes/auth.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/biblioteca';
 
 // Middleware CORS mejorado
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'http://localhost:3001',
+    'http://localhost:3000',
     'https://biblioteca-virtual-ge18.vercel.app',
     process.env.CORS_ORIGIN
   ].filter(Boolean),
